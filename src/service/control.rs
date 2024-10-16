@@ -1,6 +1,6 @@
 use alloc::vec::Vec;
 
-use crate::error::Error;
+use super::serivce_error::ServiceError;
 
 #[derive(Debug)]
 pub struct ControlReport {
@@ -10,9 +10,9 @@ pub struct ControlReport {
 }
 
 impl ControlReport {
-    pub fn from_buffer(buffer: &[u8]) -> Result<Self, Error> {
+    pub fn from_buffer(buffer: &[u8]) -> Result<Self, ServiceError> {
         if buffer.len() < 8 {
-            return Err(Error::NotEnougthBufferData);
+            return Err(ServiceError::NotEnougthBufferData);
         }
 
         Ok(Self {
