@@ -1,5 +1,5 @@
 #[derive(Debug)]
-pub enum Error {
+pub enum TransportError {
     ZeroSizeFrameNotSupported,
     InvalidCRC(u16, u16),
     InvalidFrameSize,
@@ -7,6 +7,4 @@ pub enum Error {
     NotEnougthBufferData,
 
     InvalidPacketSize,
-
-    UnsupportedServiceCommand(&'static str),
 }
