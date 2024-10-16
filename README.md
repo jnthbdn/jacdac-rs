@@ -2,6 +2,7 @@
   - [Introduction](#introduction)
     - [What is jacdac ?](#what-is-jacdac-)
     - [What is jacdac-rs](#what-is-jacdac-rs)
+  - [Requirements](#requirements)
   - [Features](#features)
     - [Available](#available)
       - [Transport](#transport)
@@ -33,6 +34,9 @@ jacdac-rs is a library written entirely in Rust, with the aim of providing jacda
 The library will be [embedded-hal](https://crates.io/crates/embedded-hal) dependent where necessary, to ensure maximum interoperability.
 
 jacdac-rs is in the early stages of development, and the api is subject to major changes between versions.
+
+## Requirements
+This crate need an allocator, due to `alloc::vec` usage.
 
 ## Features
 

@@ -1,8 +1,6 @@
 use alloc::vec::Vec;
 
-use crate::error::Error;
-
-use super::{frame_flag::FrameFlags, packet::Packet};
+use super::{frame_flag::FrameFlags, packet::Packet, transport_error::TransportError};
 
 #[derive(Debug)]
 pub struct Frame {
@@ -14,9 +12,9 @@ pub struct Frame {
 }
 
 impl Frame {
-    pub fn from_buffer(buffer: &[u8]) -> Result<Self, Error> {
+    pub fn from_buffer(buffer: &[u8]) -> Result<Self, TransportError> {
         if buffer.len() < 16 {
-            return Err(Error::NotEnougthBufferData);
+            return Err(TransportError::NotEnougthBufferData);
         }
 
         let crc = u16::from_le_bytes(buffer[0..=1].try_into().unwrap());
@@ -25,11 +23,11 @@ impl Frame {
         let device_id = u64::from_le_bytes(buffer[4..=11].try_into().unwrap());
 
         if size == 0 {
-            return Err(Error::ZeroSizeFrameNotSupported);
+            return Err(TransportError::ZeroSizeFrameNotSupported);
         }
 
         if size as usize > buffer.len() - 12 {
-            return Err(Error::NotEnougthBufferData);
+            return Err(TransportError::NotEnougthBufferData);
         }
 
         let mut frame = Frame {
@@ -60,7 +58,7 @@ impl Frame {
         if compute_crc == frame.crc {
             Ok(frame)
         } else {
-            Err(Error::InvalidCRC(frame.crc, compute_crc))
+            Err(TransportError::InvalidCRC(frame.crc, compute_crc))
         }
     }
 }

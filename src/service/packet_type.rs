@@ -1,6 +1,6 @@
 use alloc::vec::Vec;
 
-use super::{control_report::ControlReport, event_report::EventReport};
+use super::reports::{ActionReport, EventReport};
 
 #[derive(Debug)]
 pub enum PacketType {
@@ -18,7 +18,6 @@ pub enum CommandType {
 #[derive(Debug)]
 pub enum ReportType {
     Register(u16, Vec<u8>),
-    Actions(u16, Vec<u8>),
+    Actions(ActionReport),
     Events(EventReport),
-    Control(ControlReport),
 }
