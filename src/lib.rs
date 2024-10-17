@@ -11,14 +11,8 @@ pub mod transport {
     pub mod transport_error;
 }
 
-pub mod service {
-    pub mod button;
-    pub mod control;
-    pub mod packet;
-    pub mod packet_type;
-    pub mod reports;
-    pub mod serivce_error;
-    pub mod service;
-}
+pub mod service;
 
 pub mod brain;
+pub mod brain_device;
+pub mod brain_error;
