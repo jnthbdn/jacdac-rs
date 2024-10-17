@@ -15,7 +15,7 @@ pub struct Packet {
 impl Packet {
     pub fn from_transport(
         packet: transport::packet::Packet,
-        flags: FrameFlags,
+        flags: &FrameFlags,
     ) -> Result<Self, ServiceError> {
         let packet_type: PacketType;
 
