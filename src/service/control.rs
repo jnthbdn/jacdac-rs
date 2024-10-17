@@ -28,13 +28,17 @@ use super::{
 // }
 
 #[derive(Debug, Default)]
-struct Control {
+pub struct Control {
     flags: u16,
     classes: Vec<u32>,
     last_report: u64,
 }
 
 impl Control {
+    pub fn classes(&self) -> &Vec<u32> {
+        &self.classes
+    }
+
     fn buffer_to_classes(buffer: &[u8]) -> Vec<u32> {
         let mut result = Vec::with_capacity(buffer.len() / 4);
 
@@ -51,9 +55,7 @@ impl Control {
 }
 
 impl Service for Control {
-    fn id(&self) -> u64 {
-        0x0
-    }
+    // fn id(pub static BUTTON_ID: u32 = 0x00;
 
     fn handle_event_report(&mut self, _event: EventReport) -> Result<(), ServiceError> {
         unimplemented!()
@@ -72,7 +74,7 @@ impl Service for Control {
         // packet_count: buffer[2],
         self.classes = Self::buffer_to_classes(&action.payload[4..]);
 
-        // TODO: How to get current "time"
+        // FIXME How to get current "time"
         // self.last_report = now;
 
         Ok(())
