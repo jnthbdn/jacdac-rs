@@ -1,8 +1,8 @@
-use jacdac_rs::{service::packet::Packet, transport::frame::Frame};
+use jacdac_rs::{brain::Brain, service::packet::Packet, transport::frame::Frame};
 
 fn main() {
-    let str_buffer = "b55c08000c1b11ff66a11bed0401028ac8000000"; // Event report
-                                                                 // let str_buffer = "7f9c0c000c1b11ff66a11bed080000002f01010063a27314"; // Services report from button id '0c1b11ff66a11bed' named RB71
+    // let str_buffer = "b55c08000c1b11ff66a11bed0401028ac8000000"; // Event report
+    let str_buffer = "7f9c0c000c1b11ff66a11bed080000002f01010063a27314"; // Services report from button id '0c1b11ff66a11bed' named RB71
 
     let buffer: Vec<u8> = match str_to_buff(str_buffer) {
         Some(v) => v,
@@ -12,14 +12,23 @@ fn main() {
         }
     };
 
-    let frame = Frame::from_buffer(&buffer);
+    let frame = match Frame::from_buffer(&buffer) {
+        Ok(f) => f,
+        Err(e) => {
+            eprintln!("Frame error: {:?}", e);
+            return;
+        }
+    };
 
-    println!("Result: {:#?}", frame);
+    let mut brain = Brain::default();
 
-    if let Ok(mut frame) = frame {
-        let packet = frame.data.pop().unwrap();
-        println!("Packet: {:#?}", Packet::from_transport(packet, frame.flag))
+    println!("Brain: {:#?}", brain);
+
+    match brain.handle_frame(frame) {
+        Ok(_) => (),
+        Err(e) => eprintln!("Failed to handle frame: {:?}", e),
     }
+    println!("Brain: {:#?}", brain);
 }
 
 fn str_to_buff(s: &str) -> Option<Vec<u8>> {
