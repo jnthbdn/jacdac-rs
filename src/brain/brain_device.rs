@@ -12,6 +12,7 @@ use crate::{
 pub struct BrainDevice {
     id: u64,
     services: Vec<Box<dyn Service>>,
+    last_control_report: u64,
 }
 
 impl BrainDevice {
@@ -19,11 +20,19 @@ impl BrainDevice {
         let mut v: Vec<Box<dyn Service>> = Vec::with_capacity(1);
         v.push(Box::new(Control::default()));
 
-        Self { id, services: v }
+        Self {
+            id,
+            services: v,
+            last_control_report: 0,
+        }
     }
 
     pub fn id(&self) -> u64 {
         self.id
+    }
+
+    pub fn is_active(&self) -> bool {
+        self.last_control_report < 2000
     }
 
     pub fn handle_frame(&mut self, frame: Frame) -> Result<(), BrainError> {
@@ -51,6 +60,7 @@ impl BrainDevice {
                             .handle_action_report(report)
                             .map_err(|e| BrainError::ServiceError(e))?;
                         self.update_services()?;
+                        // TODO Update last_control_report
                         Ok(())
                     }
                 },

@@ -10,7 +10,6 @@ use super::{
 pub struct Control {
     flags: u16,
     classes: Vec<u32>,
-    last_report: u64,
 }
 
 impl Control {
@@ -52,9 +51,6 @@ impl Service for Control {
         self.flags = u16::from_le_bytes(action.payload[0..=1].try_into().unwrap());
         // packet_count: buffer[2],
         self.classes = Self::buffer_to_classes(&action.payload[4..]);
-
-        // FIXME How to get current "time"
-        // self.last_report = now;
 
         Ok(())
     }
