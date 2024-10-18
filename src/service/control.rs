@@ -6,27 +6,6 @@ use super::{
     service::Service,
 };
 
-// #[derive(Debug)]
-// pub struct ControlReport {
-//     flags: u16,
-//     packet_count: u8,
-//     classes: Vec<u32>,
-// }
-
-// impl ControlReport {
-//     pub fn from_buffer(buffer: &[u8]) -> Result<Self, ServiceError> {
-//         if buffer.len() < 8 {
-//             return Err(ServiceError::InvalidPayloadSize(buffer.len(), 8));
-//         }
-
-//         Ok(Self {
-//             flags: u16::from_le_bytes(buffer[0..=1].try_into().unwrap()),
-//             packet_count: buffer[2],
-//             classes: Self::buffer_to_classes(&buffer[4..]),
-//         })
-//     }
-// }
-
 #[derive(Debug, Default)]
 pub struct Control {
     flags: u16,

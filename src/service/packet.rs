@@ -45,10 +45,6 @@ impl Packet {
         } else {
             let report_type = match packet.command {
                 transport::service_command::ServiceCommand::Action(value) => {
-                    // match packet.index {
-                    //     ServiceIndex::ControlService => Ok(ReportType::Control(ControlReport::from_buffer(&packet.payload)?)),
-                    //     _ => 
-                    // }
                     Ok(ReportType::Actions(ActionReport{ code: value & 0x0FFF, payload: packet.payload}))
                 }
                 transport::service_command::ServiceCommand::RegisterRead(value) => {

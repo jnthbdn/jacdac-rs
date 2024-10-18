@@ -20,28 +20,3 @@ impl FrameFlags {
         self.raw & 0x02 > 0
     }
 }
-
-// #[derive(Debug)]
-// pub enum FrameFlags {
-//     ReportPacket,
-//     Command,
-//     AckRequested,
-//     DeviceIdAltMeaning,
-//     Reserved,
-// }
-
-// impl From<u8> for FrameFlag {
-//     fn from(value: u8) -> Self {
-//         if value == 0 {
-//             FrameFlag::ReportPacket
-//         } else if value & 0x01 > 0 {
-//             FrameFlag::Command
-//         } else if value & 0x02 > 0 {
-//             FrameFlag::AckRequested
-//         } else if value & 0x04 > 0 {
-//             FrameFlag::DeviceIdAltMeaning
-//         } else {
-//             FrameFlag::Reserved
-//         }
-//     }
-// }
