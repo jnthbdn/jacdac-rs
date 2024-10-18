@@ -32,6 +32,7 @@ impl Brain {
         self.known_devices.iter().position(|x| x.id() == id)
     }
 
-    // pub fn clean_devices(&mut self){
-    // }
+    pub fn remove_inactive_devices(&mut self) {
+        self.known_devices.retain(|e| e.is_active());
+    }
 }
