@@ -2,15 +2,9 @@ use core::{any::TypeId, fmt::Debug};
 
 use alloc::{boxed::Box, vec::Vec};
 
+use super::brain_error::BrainError;
 use crate::{
-    brain_error::BrainError,
-    service::{
-        self,
-        button::{self, Button},
-        control::Control,
-        packet::Packet,
-        service::Service,
-    },
+    service::{self, button::Button, control::Control, packet::Packet, service::Service},
     transport::frame::Frame,
 };
 

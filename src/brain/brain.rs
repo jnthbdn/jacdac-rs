@@ -1,7 +1,9 @@
 use alloc::vec::Vec;
 // use circular_buffer::CircularBuffer;
 
-use crate::{brain_device::BrainDevice, brain_error::BrainError, transport::frame::Frame};
+use crate::transport::frame::Frame;
+
+use super::{brain_device::BrainDevice, brain_error::BrainError};
 
 pub const BRAIN_EVENT_QUEUE_SIZE: usize = 16;
 

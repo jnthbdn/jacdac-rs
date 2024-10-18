@@ -1,4 +1,4 @@
-use jacdac_rs::{brain::Brain, service::packet::Packet, transport::frame::Frame};
+use jacdac_rs::{brain::brain::Brain, transport::frame::Frame};
 
 fn main() {
     // let str_buffer = "b55c08000c1b11ff66a11bed0401028ac8000000"; // Event report

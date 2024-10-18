@@ -13,6 +13,8 @@ pub mod transport {
 
 pub mod service;
 
-pub mod brain;
-pub mod brain_device;
-pub mod brain_error;
+pub mod brain {
+    pub mod brain;
+    pub mod brain_device;
+    pub mod brain_error;
+}
