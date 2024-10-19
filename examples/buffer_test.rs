@@ -20,7 +20,7 @@ fn main() {
         }
     };
 
-    let mut brain = Brain::default();
+    let mut brain = Brain::new(|| 0u64);
 
     println!("Brain: {:#?}", brain);
 

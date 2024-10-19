@@ -7,21 +7,29 @@ use super::{brain_device::BrainDevice, brain_error::BrainError};
 
 pub const BRAIN_EVENT_QUEUE_SIZE: usize = 16;
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct Brain {
+    pub get_current_millis: fn() -> u64,
     pub known_devices: Vec<BrainDevice>,
     // pub event_queue: CircularBuffer<BRAIN_EVENT_QUEUE_SIZE, EventReport>,
 }
 
 impl Brain {
+    pub fn new(get_current_millis: fn() -> u64) -> Self {
+        Self {
+            get_current_millis,
+            known_devices: Vec::new(),
+        }
+    }
+
     pub fn handle_frame(&mut self, frame: Frame) -> Result<(), BrainError> {
         match self.get_device_index_by_id(frame.device_id) {
             Some(idx) => {
-                self.known_devices[idx].handle_frame(frame)?;
+                self.known_devices[idx].handle_frame(frame, &self.get_current_millis)?;
             }
             None => {
                 let mut device = BrainDevice::new(frame.device_id);
-                device.handle_frame(frame)?;
+                device.handle_frame(frame, &self.get_current_millis)?;
                 self.known_devices.push(device);
             }
         };

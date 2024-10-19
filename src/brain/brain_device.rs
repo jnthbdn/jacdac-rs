@@ -35,7 +35,11 @@ impl BrainDevice {
         self.last_control_report < 2000
     }
 
-    pub fn handle_frame(&mut self, frame: Frame) -> Result<(), BrainError> {
+    pub fn handle_frame(
+        &mut self,
+        frame: Frame,
+        get_current_millis: &fn() -> u64,
+    ) -> Result<(), BrainError> {
         for packet in frame.data {
             let service_packet = Packet::from_transport(packet, &frame.flag)
                 .map_err(|e| BrainError::ServiceError(e))?;
@@ -46,6 +50,8 @@ impl BrainDevice {
                 }
                 crate::service::packet_type::PacketType::Report(report_type) => Ok(report_type),
             }?;
+
+            self.last_control_report = get_current_millis();
 
             match service_packet.service_index {
                 crate::transport::serice_index::ServiceIndex::ControlService => match report_type {
@@ -60,7 +66,6 @@ impl BrainDevice {
                             .handle_action_report(report)
                             .map_err(|e| BrainError::ServiceError(e))?;
                         self.update_services()?;
-                        // TODO Update last_control_report
                         Ok(())
                     }
                 },
