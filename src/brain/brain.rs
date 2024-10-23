@@ -1,5 +1,4 @@
 use alloc::vec::Vec;
-// use circular_buffer::CircularBuffer;
 
 use crate::transport::frame::Frame;
 
@@ -9,9 +8,8 @@ pub const BRAIN_EVENT_QUEUE_SIZE: usize = 16;
 
 #[derive(Debug)]
 pub struct Brain {
-    pub get_current_millis: fn() -> u64,
-    pub known_devices: Vec<BrainDevice>,
-    // pub event_queue: CircularBuffer<BRAIN_EVENT_QUEUE_SIZE, EventReport>,
+    get_current_millis: fn() -> u64,
+    known_devices: Vec<BrainDevice>,
 }
 
 impl Brain {
