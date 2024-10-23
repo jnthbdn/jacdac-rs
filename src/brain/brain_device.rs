@@ -35,6 +35,21 @@ impl BrainDevice {
         self.last_control_report < 2000
     }
 
+    pub fn get_all_services<T: Service>(&self) -> Vec<&T> {
+        self.services
+            .iter()
+            .filter(|x| x.downcast_ref::<T>().is_some())
+            .map(|x| x.downcast_ref::<T>().unwrap())
+            .collect()
+    }
+
+    pub fn get_first_service<T: Service>(&self) -> Option<&T> {
+        self.services
+            .iter()
+            .find(|x| x.downcast_ref::<T>().is_some())
+            .map(|e| e.downcast_ref().unwrap())
+    }
+
     pub fn handle_frame(
         &mut self,
         frame: Frame,
