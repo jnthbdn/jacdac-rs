@@ -41,4 +41,12 @@ impl Brain {
     pub fn remove_inactive_devices(&mut self) {
         self.known_devices.retain(|e| e.is_active());
     }
+
+    pub fn get_devices(&self) -> &[BrainDevice] {
+        &self.known_devices
+    }
+
+    pub fn get_device_by_id(&self, id: u64) -> Option<&BrainDevice> {
+        self.known_devices.iter().find(|x| x.id() == id)
+    }
 }
