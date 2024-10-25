@@ -4,8 +4,8 @@ use super::{
     service::Service,
 };
 
-#[derive(Debug, Default)]
-enum ButtonState {
+#[derive(Debug, Default, Clone, Copy)]
+pub enum ButtonState {
     #[default]
     Release,
     Press,
@@ -15,6 +15,16 @@ enum ButtonState {
 pub struct Button {
     state: ButtonState,
     last_press_time: u32,
+}
+
+impl Button {
+    pub fn state(&self) -> ButtonState {
+        self.state
+    }
+
+    pub fn last_press_time(&self) -> u32 {
+        self.last_press_time
+    }
 }
 
 impl Service for Button {
