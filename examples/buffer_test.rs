@@ -1,33 +1,38 @@
 use jacdac_rs::{brain::brain::Brain, transport::frame::Frame};
 
 fn main() {
-    // let str_buffer = "b55c08000c1b11ff66a11bed0401028ac8000000"; // Event report
-    let str_buffer = "7f9c0c000c1b11ff66a11bed080000002f01010063a27314"; // Services report from button id '0c1b11ff66a11bed' named RB71
-
-    let buffer: Vec<u8> = match str_to_buff(str_buffer) {
-        Some(v) => v,
-        None => {
-            eprintln!("Failed to parse str_buffer...");
-            return;
-        }
-    };
-
-    let frame = match Frame::from_buffer(&buffer) {
-        Ok(f) => f,
-        Err(e) => {
-            eprintln!("Frame error: {:?}", e);
-            return;
-        }
-    };
+    let str_buffer = [
+        "2AA10C00BEE3269A73CAE807080000001F03000063A2731400", // Services report from button id '07E8CA739A26E3BE' named RB71
+        "C4620400BEE3269A73CAE807000101D500",                 // Event report "button pressed"
+    ];
 
     let mut brain = Brain::new(|| 0u64);
 
     println!("Brain: {:#?}", brain);
 
-    match brain.handle_frame(frame) {
-        Ok(_) => (),
-        Err(e) => eprintln!("Failed to handle frame: {:?}", e),
+    for string in str_buffer {
+        let buffer: Vec<u8> = match str_to_buff(string) {
+            Some(v) => v,
+            None => {
+                eprintln!("Failed to parse string...");
+                return;
+            }
+        };
+
+        let frame = match Frame::from_buffer(&buffer) {
+            Ok(f) => f,
+            Err(e) => {
+                eprintln!("Frame error: {:?}", e);
+                return;
+            }
+        };
+
+        match brain.handle_frame(frame) {
+            Ok(_) => (),
+            Err(e) => eprintln!("Failed to handle frame: {:?}", e),
+        }
     }
+
     println!("Brain: {:#?}", brain);
 }
 
