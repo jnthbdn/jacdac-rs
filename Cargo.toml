@@ -2,6 +2,10 @@
 name = "jacdac-rs"
 version = "0.1.0"
 edition = "2021"
+license = "GPL-3.0-or-later"
+description = "jacdac-rs is a library written entirely in Rust, with the aim of providing jacdac support for embedded development"
+repository = "https://github.com/jnthbdn/jacdac-rs"
+readme = "README.md"
 
 [dependencies]
 circular-buffer = { version = "0.1.9", default-features = false }
